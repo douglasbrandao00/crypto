@@ -3,5 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/douglasbrandao00/crypto.git",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "husky": "^7.0.4",
+    "install": "^0.13.0"
+  },
+  "scripts": {
+    "prepare": "husky install"
+  }
 }
