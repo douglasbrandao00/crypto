@@ -5,6 +5,7 @@
   "repository": "https://github.com/douglasbrandao00/crypto.git",
   "license": "MIT",
   "devDependencies": {
+    "git-commit-msg-linter": "^3.2.8",
     "husky": "^7.0.4",
     "install": "^0.13.0"
   },
