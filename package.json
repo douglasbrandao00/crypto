@@ -1,0 +1,7 @@
+{
+  "name": "crypto",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/douglasbrandao00/crypto.git",
+  "license": "MIT"
+}
