@@ -1,0 +1,58 @@
+# Register | singup
+
+## Casos de sucesso {happy path}
+
+### Etapa 1 | Cadastro inicial
+  [] - Recebe uma requisição do tipo **POST** na rota **/api/signup**
+  [] - Valida dados obrigatórios **name**, **email**, **password** e **passwordConfirmation**
+  [] - Valida que **password** e **passwordConfirmation** são iguais
+  [] - Valida que o campo **email** é um e-mail válido
+  [] - **Valida** se já existe um usuário com o email fornecido
+  [] - Gera uma senha **criptografada** (essa senha não pode ser descriptografada)
+  [] - **Cria** uma conta para o usuário com os dados informados, **substituindo** a senha pela senha criptografada com status **waiting_email_validation**
+
+### Etapa 2 | Validação de email
+  - Parte 1 | Gera código alieatório
+    [] - Gera um código numérico aletório
+    [] - Salva código em memória e disco?
+    [] - Ativa um timer para invalidar código 
+    [] - Envia email para usuário com código gerado
+  - Parte 2 | Valida código informado pelo cliente
+    [] - Recebe uma requisição do tipo **POST** na rota **/api/signup/email-validation**
+    [] - Valida código informado pelo usuário
+    [] - Valida se status do usuário é **waiting_email_validation**
+    [] - Salva status de signup como **email_validated**
+### Etapa 3 | Cadastro e validação do celular
+  - Parte 1 | Cadastro de  celular
+    [] - Recebe uma requisição do tipo **POST** na rota **/api/signup/cellphone**
+    [] - Valida se número de celular é válido
+    [] - Gera um código numérico aletório
+    [] - Salva código em memória e disco?
+    [] - Salva status de signup como **waiting_cellphone_validation**
+    [] - Ativa um timer para invalidar código 
+    [] - Envia sms para usuário com código gerado
+  - Parte 2 | Valida código informado pelo cliente
+    [] - Recebe uma requisição do tipo **POST** na rota **/api/signup/cellphone-validation**
+    [] - Valida código informado pelo usuário
+    [] - Valida se status do usuário é **waiting_cellphone_validation**
+    [] - Salva status de signup como **cellphone_validated**
+### Etapa 4 | notifica fim de criação de conta
+    [] - Envia email de bem vindo a aplicação
+
+## Excessões da aplicação
+
+  [] - Retorna erro **404** se a API não existir
+  [] - Retorna erro **400** se name, email, password ou passwordConfirmation não forem fornecidos pelo client
+  [] - Retorna erro **400** se password e passwordConfirmation não forem iguais
+  [] - Retorna erro **400** se o campo email for um e-mail inválido
+  [] - Retorna erro **406** se o email fornecido já estiver em uso
+  [] - Retorna erro **406** se o código de verificação não for válido
+  [] - Retorna erro **500** se der erro ao tentar gerar uma senha criptografada
+  [] - Retorna erro **500** se der erro ao tentar criar a conta do usuário
+  [] - Retorna erro **500** se der erro ao tentar gerar o token de acesso
+  [] - Retorna erro **500** se der erro ao tentar atualizar o usuário com o token de acesso gerado
+
+#Questões a solucionar
+como lincar código do email ao usuário
+como lincar código do sms ao usuário
+
