@@ -13,6 +13,7 @@
     "typescript": "^4.5.4"
   },
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "t:unit": "node ./japaFile.js"
   }
 }
