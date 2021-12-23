@@ -16,6 +16,7 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "t:unit": "node ./japaFile.js"
+    "t:unit": "yarn jest",
+    "t:unit:w": "yarn jest --watch"
   }
 }
