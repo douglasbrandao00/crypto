@@ -13,6 +13,8 @@ class RegisterUser {
     if(!candidate.name || !candidate.email || !candidate.password || !candidate.confirmPassword) {
       throw new Error()
     }
+
+    if(candidate.name.length < 4) throw new Error()
   }
 }
 
@@ -68,4 +70,15 @@ describe("RegisterUser", () => {
 
     expect(() => registerUser.handle()).toThrow()
   })
+
+  test('Shoud throw if user confirmPassword is a empty string', () => {
+    const userCandidate = userCandidateMock()
+    userCandidate.name = 'aaa'
+    
+    const registerUser = new RegisterUser(userCandidate)
+
+    expect(() => registerUser.handle()).toThrow()
+ })
+
+
 })
