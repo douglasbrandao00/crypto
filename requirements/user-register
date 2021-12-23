@@ -4,9 +4,9 @@
 
 ### Etapa 1 | Cadastro inicial
   [] - Recebe uma requisição do tipo **POST** na rota **/api/signup**
-  [] - Valida dados obrigatórios **name**, **email**, **password** e **passwordConfirmation**
-  [] - Valida que **password** e **passwordConfirmation** são iguais
-  [] - Valida que o campo **email** é um e-mail válido
+  [x] - Valida dados obrigatórios **name**, **email**, **password** e **passwordConfirmation**
+  [x] - Valida que **password** e **passwordConfirmation** são iguais
+  [x] - Valida que o campo **email** é um e-mail válido
   [] - **Valida** se já existe um usuário com o email fornecido
   [] - Gera uma senha **criptografada** (essa senha não pode ser descriptografada)
   [] - **Cria** uma conta para o usuário com os dados informados, **substituindo** a senha pela senha criptografada com status **waiting_email_validation**
