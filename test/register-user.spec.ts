@@ -13,8 +13,16 @@ class RegisterUser {
     if(!candidate.name || !candidate.email || !candidate.password || !candidate.confirmPassword) {
       throw new Error()
     }
+    const accetableEspecialCharacters = /[!@#$%^&*()_+\-=\[\]{};:\\|,.<>\/?]+/
+    const unaccetableEspecialCharacters = /^['"`]*$/
+    const passwordNumberAmount = candidate.password.replace(/\D/g, '').length
 
     if(candidate.name.length < 4) throw new Error()
+    if(candidate.password !== candidate.confirmPassword) throw new Error()
+    if(candidate.password.length < 8) throw new Error()
+    if(passwordNumberAmount < 1) throw new Error()
+    if(unaccetableEspecialCharacters.test(candidate.password)) throw new Error()
+    if(!accetableEspecialCharacters.test(candidate.password)) throw new Error()
   }
 }
 
@@ -22,8 +30,8 @@ function userCandidateMock(): UserCandidate{
   return {
     name: 'any_name',
     email: 'any_email',
-    password: 'any_password',
-    confirmPassword: 'any_password',
+    password: 'any_password@1',
+    confirmPassword: 'any_password@1',
   }
 
 }
@@ -71,7 +79,7 @@ describe("RegisterUser", () => {
     expect(() => registerUser.handle()).toThrow()
   })
 
-  test('Shoud throw if user confirmPassword is a empty string', () => {
+  test('Shoud throw if user name has less than 4 characters', () => {
     const userCandidate = userCandidateMock()
     userCandidate.name = 'aaa'
     
@@ -80,5 +88,56 @@ describe("RegisterUser", () => {
     expect(() => registerUser.handle()).toThrow()
  })
 
+  test('Shoud throw if user confirmPassword is differnt than password', () => {
+    const userCandidate = userCandidateMock()
+    userCandidate.confirmPassword = 'any_differnt_password'
+    
+    const registerUser = new RegisterUser(userCandidate)
+
+    expect(() => registerUser.handle()).toThrow()
+ })
+
+  test('Shoud throw if user password has less than 8 characters', () => {
+    const invalidPassword = 'abcdef1'// seven characters
+    const userCandidate = userCandidateMock()
+    userCandidate.password = invalidPassword
+    userCandidate.confirmPassword = invalidPassword
+
+    const registerUser = new RegisterUser(userCandidate)
+
+    expect(() => registerUser.handle()).toThrow()
+ })
+
+  test('Shoud throw if user password has no number', () => {
+  
+    const invalidPassword = 'abcdefgh'// without number 
+    const userCandidate = userCandidateMock()
+    userCandidate.password = invalidPassword
+    userCandidate.confirmPassword = invalidPassword
+
+    const registerUser = new RegisterUser(userCandidate)
+
+    expect(() => registerUser.handle()).toThrow()
+ })
+
+  test('Shoud throw if user password has no special character', () => {
+    const invalidPassword = 'abcdefg1'// without special character 
+    const userCandidate = userCandidateMock()
+    userCandidate.password = invalidPassword
+    userCandidate.confirmPassword = invalidPassword
+
+    const registerUser = new RegisterUser(userCandidate)
+    expect(() => registerUser.handle()).toThrow()
+ })
+
+  test('Shoud throw if user password has invalid special character', () => {
+    const invalidPassword = 'abcdefg1`"'// without special character 
+    const userCandidate = userCandidateMock()
+    userCandidate.password = invalidPassword
+    userCandidate.confirmPassword = invalidPassword
+
+    const registerUser = new RegisterUser(userCandidate)
+    expect(() => registerUser.handle()).toThrow()
+ })
 
 })
