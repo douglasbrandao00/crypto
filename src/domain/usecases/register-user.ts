@@ -1,3 +1,5 @@
+import {EmailValidator} from "./adapters/email-validator"
+
 export type UserCandidate = {
       name: string
       email: string
@@ -6,7 +8,10 @@ export type UserCandidate = {
 }
 
 export class RegisterUser {
-  constructor(private readonly candidate: UserCandidate) {}
+  constructor(
+    private readonly candidate: UserCandidate,
+    private readonly emailValidator: EmailValidator
+  ) {}
 
   handle() {
     this.validateUserCandidate()
@@ -14,7 +19,7 @@ export class RegisterUser {
 
   validateUserCandidate() {
     this.hasCandidateBlankData()
-    this.hasUserNameCorectLength()
+    this.isNameLengthBiggerThanMinimun()
     this.isPasswordEqualsToConfirmPassword()
     this.isPasswordLengthBiggerThanMinimun()
     this.isPasswordSecure()
@@ -30,7 +35,7 @@ export class RegisterUser {
       throw new Error()
     }
   }
-  hasUserNameCorectLength() {
+  isNameLengthBiggerThanMinimun() {
     const NAME_MINIMUN_LENGTH = 4
     if(this.candidate.name.length < NAME_MINIMUN_LENGTH) throw new Error()
   }
