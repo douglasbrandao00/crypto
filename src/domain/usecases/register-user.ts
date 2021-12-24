@@ -17,7 +17,7 @@ export class RegisterUser {
     this.validateUserCandidate()
   }
 
-  validateUserCandidate() {
+  validateUserCandidate(): void | Error {
     this.hasCandidateBlankData()
     this.isNameLengthBiggerThanMinimun()
     this.isPasswordEqualsToConfirmPassword()
@@ -26,7 +26,7 @@ export class RegisterUser {
     this.isEmailValid()
   }
 
-  hasCandidateBlankData(): void | Error {
+  hasCandidateBlankData():void | Error {
     if(
       !this.candidate.name ||
       !this.candidate.email ||
@@ -36,18 +36,18 @@ export class RegisterUser {
       throw new Error()
     }
   }
-  isNameLengthBiggerThanMinimun() {
+  isNameLengthBiggerThanMinimun(): void | Error {
     const NAME_MINIMUN_LENGTH = 4
     if(this.candidate.name.length < NAME_MINIMUN_LENGTH) throw new Error()
   }
-  isPasswordEqualsToConfirmPassword() {
+  isPasswordEqualsToConfirmPassword(): void | Error {
     if(this.candidate.password !== this.candidate.confirmPassword) throw new Error()
   }
-  isPasswordLengthBiggerThanMinimun(){
+  isPasswordLengthBiggerThanMinimun(): void | Error {
     const PASSWORD_MINIMUN_LENGTH = 8
     if(this.candidate.password.length < PASSWORD_MINIMUN_LENGTH) throw new Error()
   }
-  isPasswordSecure() {
+  isPasswordSecure(): void | Error {
     const { password } = this.candidate
 
     const acceptableEspecialCharacters = /[!@#$%^&*()_+\-=\[\]{};:\\|,.<>\/?]+/
@@ -61,7 +61,7 @@ export class RegisterUser {
     if(hasUnacceptableCharacter) throw new Error()
     if(!hasAcceptableCharacter) throw new Error()
   }
-  isEmailValid() {
+  isEmailValid(): void | Error  {
     if(!this.emailValidator.isValid(this.candidate.email)) throw new Error()
   }
 }
