@@ -82,7 +82,7 @@ describe("RegisterUser", () => {
 
   test('Shoud throw if user password has no number', () => {
   
-    const invalidPassword = 'abcdefgh'// without number 
+    const invalidPassword = 'abcdefh@'// without number 
     const userCandidate = userCandidateMock()
     userCandidate.password = invalidPassword
     userCandidate.confirmPassword = invalidPassword

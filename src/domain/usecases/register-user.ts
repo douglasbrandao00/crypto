@@ -31,24 +31,29 @@ export class RegisterUser {
     }
   }
   hasUserNameCorectLength() {
-    if(this.candidate.name.length < 4) throw new Error()
+    const NAME_MINIMUN_LENGTH = 4
+    if(this.candidate.name.length < NAME_MINIMUN_LENGTH) throw new Error()
   }
   isPasswordEqualsToConfirmPassword() {
     if(this.candidate.password !== this.candidate.confirmPassword) throw new Error()
   }
   isPasswordLengthBiggerThanMinimun(){
-    if(this.candidate.password.length < 8) throw new Error()
+    const PASSWORD_MINIMUN_LENGTH = 8
+    if(this.candidate.password.length < PASSWORD_MINIMUN_LENGTH) throw new Error()
   }
   isPasswordSecure() {
-    const candidate = this.candidate
-    const accetableEspecialCharacters = /[!@#$%^&*()_+\-=\[\]{};:\\|,.<>\/?]+/
-    const unaccetableEspecialCharacters = /^['"`]*$/
-    const passwordNumberAmount = candidate.password.replace(/\D/g, '').length
+    const { password } = this.candidate
 
-    if(passwordNumberAmount < 1) throw new Error()
-    if(unaccetableEspecialCharacters.test(candidate.password)) throw new Error()
-    if(!accetableEspecialCharacters.test(candidate.password)) throw new Error()
+    const acceptableEspecialCharacters = /[!@#$%^&*()_+\-=\[\]{};:\\|,.<>\/?]+/
+    const unacceptableEspecialCharacters = /^['"`]*$/
 
+    const passwordHasNumber = /\d/.test(password)
+    const hasAcceptableCharacter = acceptableEspecialCharacters.test(password)
+    const hasUnacceptableCharacter = unacceptableEspecialCharacters.test(password)
+
+    if(!passwordHasNumber) throw new Error()
+    if(hasUnacceptableCharacter) throw new Error()
+    if(!hasAcceptableCharacter) throw new Error()
   }
 }
 
