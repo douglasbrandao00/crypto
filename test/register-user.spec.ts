@@ -1,4 +1,5 @@
 import { UserCandidate, RegisterUser } from '../src/domain/usecases/register-user'
+import {EmailValidator} from './domain/usecases/adapters/email-validator'
 
 function userCandidateMock(): UserCandidate{
   return {
@@ -9,64 +10,81 @@ function userCandidateMock(): UserCandidate{
   }
 }
 
+  class EmailValidatorSpy implements EmailValidator {
+    valid = true 
+    isValid(email: string): boolean {
+        return this.valid
+    }
+
+  }
+function makeSut (userCandidate: UserCandidate) {
+  const emailValidator = new EmailValidatorSpy()
+  const sut = new RegisterUser(userCandidate, emailValidator )
+
+  return {
+    sut,
+    emailValidator
+  }
+}
+
 describe("RegisterUser", () => {
   test('Shoud return undefined if user candidate is valid', () => {
     const userCandidate = userCandidateMock()
     
-    const registerUser = new RegisterUser(userCandidate)
+    const { sut } = makeSut(userCandidate)
 
-    expect(registerUser.handle()).toEqual(undefined)
+    expect(sut.handle()).toEqual(undefined)
   })
 
   test("Shoud throw if user name is a empty string", () => {
     const userCandidate = userCandidateMock()
     userCandidate.name = ""
     
-    const registerUser = new RegisterUser(userCandidate)
-    expect(() => registerUser.handle()).toThrow()
+    const { sut } = makeSut(userCandidate)
+    expect(() => sut .handle()).toThrow()
   })
 
   test("Shoud throw if user email is a empty string", () => {
     const userCandidate = userCandidateMock()
     userCandidate.email = ""
     
-    const registerUser = new RegisterUser(userCandidate)
+    const { sut } = makeSut(userCandidate)
 
-    expect(() => registerUser.handle()).toThrow()
+    expect(() => sut.handle()).toThrow()
   })
   test("Shoud throw if user password is a empty string", () => {
     const userCandidate = userCandidateMock()
     userCandidate.password = ""
     
-    const registerUser = new RegisterUser(userCandidate)
+    const { sut } = makeSut(userCandidate)
 
-    expect(() => registerUser.handle()).toThrow()
+    expect(() => sut.handle()).toThrow()
   })
   test("Shoud throw if user confirmPassword is a empty string", () => {
     const userCandidate = userCandidateMock()
     userCandidate.confirmPassword = ""
 
-    const registerUser = new RegisterUser(userCandidate)
+    const { sut } = makeSut(userCandidate)
 
-    expect(() => registerUser.handle()).toThrow()
+    expect(() => sut.handle()).toThrow()
   })
 
   test('Shoud throw if user name has less than 4 characters', () => {
     const userCandidate = userCandidateMock()
     userCandidate.name = 'aaa'
     
-    const registerUser = new RegisterUser(userCandidate)
+    const { sut } = makeSut(userCandidate)
 
-    expect(() => registerUser.handle()).toThrow()
+    expect(() => sut.handle()).toThrow()
  })
 
   test('Shoud throw if user confirmPassword is differnt than password', () => {
     const userCandidate = userCandidateMock()
     userCandidate.confirmPassword = 'any_differnt_password'
     
-    const registerUser = new RegisterUser(userCandidate)
+    const { sut } = makeSut(userCandidate)
 
-    expect(() => registerUser.handle()).toThrow()
+    expect(() => sut.handle()).toThrow()
  })
 
   test('Shoud throw if user password has less than 8 characters', () => {
@@ -75,9 +93,9 @@ describe("RegisterUser", () => {
     userCandidate.password = invalidPassword
     userCandidate.confirmPassword = invalidPassword
 
-    const registerUser = new RegisterUser(userCandidate)
+    const { sut } = makeSut(userCandidate)
 
-    expect(() => registerUser.handle()).toThrow()
+    expect(() => sut.handle()).toThrow()
  })
 
   test('Shoud throw if user password has no number', () => {
@@ -87,9 +105,9 @@ describe("RegisterUser", () => {
     userCandidate.password = invalidPassword
     userCandidate.confirmPassword = invalidPassword
 
-    const registerUser = new RegisterUser(userCandidate)
+    const { sut } = makeSut(userCandidate)
 
-    expect(() => registerUser.handle()).toThrow()
+    expect(() => sut.handle()).toThrow()
  })
 
   test('Shoud throw if user password has no special character', () => {
@@ -98,8 +116,8 @@ describe("RegisterUser", () => {
     userCandidate.password = invalidPassword
     userCandidate.confirmPassword = invalidPassword
 
-    const registerUser = new RegisterUser(userCandidate)
-    expect(() => registerUser.handle()).toThrow()
+    const { sut } = makeSut(userCandidate)
+    expect(() => sut.handle()).toThrow()
  })
 
   test('Shoud throw if user password has invalid special character', () => {
@@ -108,8 +126,8 @@ describe("RegisterUser", () => {
     userCandidate.password = invalidPassword
     userCandidate.confirmPassword = invalidPassword
 
-    const registerUser = new RegisterUser(userCandidate)
-    expect(() => registerUser.handle()).toThrow()
+    const { sut } = makeSut(userCandidate)
+    expect(() => sut.handle()).toThrow()
  })
-
+ 
 })
