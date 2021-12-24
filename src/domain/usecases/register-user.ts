@@ -23,6 +23,7 @@ export class RegisterUser {
     this.isPasswordEqualsToConfirmPassword()
     this.isPasswordLengthBiggerThanMinimun()
     this.isPasswordSecure()
+    this.isEmailValid()
   }
 
   hasCandidateBlankData(): void | Error {
@@ -59,6 +60,9 @@ export class RegisterUser {
     if(!passwordHasNumber) throw new Error()
     if(hasUnacceptableCharacter) throw new Error()
     if(!hasAcceptableCharacter) throw new Error()
+  }
+  isEmailValid() {
+    if(!this.emailValidator.isValid(this.candidate.email)) throw new Error()
   }
 }
 
