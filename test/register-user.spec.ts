@@ -10,14 +10,16 @@ function userCandidateMock(): UserCandidate{
   }
 }
 
-  class EmailValidatorSpy implements EmailValidator {
-    valid = true 
-    isValid(email: string): boolean {
-        return this.valid
-    }
-
+class EmailValidatorSpy implements EmailValidator {
+  valid = true 
+  isValid(email: string): boolean {
+    return this.valid
   }
-function makeSut (userCandidate: UserCandidate) {
+}
+
+
+type SutType = {sut: RegisterUser, emailValidator: EmailValidatorSpy}
+function makeSut (userCandidate: UserCandidate): SutType {
   const emailValidator = new EmailValidatorSpy()
   const sut = new RegisterUser(userCandidate, emailValidator )
 
@@ -130,4 +132,12 @@ describe("RegisterUser", () => {
     expect(() => sut.handle()).toThrow()
  })
  
+  test('Shoud throw if invalid email is provided', () => {
+    const userCandidate = userCandidateMock()
+    
+    const { sut, emailValidator } = makeSut(userCandidate)
+    emailValidator.valid = false
+
+    expect(() => sut.handle()).toThrow()
+ })
 })
