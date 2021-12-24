@@ -1,4 +1,4 @@
-import {UserCandidate, RegisterUser} from '../src/domain/usecases/register-user'
+import { UserCandidate, RegisterUser } from '../src/domain/usecases/register-user'
 
 function userCandidateMock(): UserCandidate{
   return {
@@ -7,7 +7,6 @@ function userCandidateMock(): UserCandidate{
     password: 'any_password@1',
     confirmPassword: 'any_password@1',
   }
-
 }
 
 describe("RegisterUser", () => {
@@ -24,7 +23,6 @@ describe("RegisterUser", () => {
     userCandidate.name = ""
     
     const registerUser = new RegisterUser(userCandidate)
-
     expect(() => registerUser.handle()).toThrow()
   })
 
@@ -72,7 +70,7 @@ describe("RegisterUser", () => {
  })
 
   test('Shoud throw if user password has less than 8 characters', () => {
-    const invalidPassword = 'abcdef1'// seven characters
+    const invalidPassword = 'abcde1@'// seven characters
     const userCandidate = userCandidateMock()
     userCandidate.password = invalidPassword
     userCandidate.confirmPassword = invalidPassword
